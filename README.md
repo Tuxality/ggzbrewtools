@@ -4,7 +4,7 @@ Simple "Devil May Cry: Dante X Vergil for BREW" GGZ assets (un)packing tool
 ### Requirements
 In order to compile you need to meet following requirements:
  - Compiler supporting C++17 (tested on GCC 11.2.0)
- - BOOST library
+ - Boost library
 
 ### Compiling
 Native compilation (GNU/Linux, macOS, MSYS2 on Windows):
