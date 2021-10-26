@@ -1,0 +1,10 @@
+.*
+*.o
+version.h
+unpack
+pack
+*.exe
+decompressed/*
+compressed/*
+ggzfiles/*
+release/*
