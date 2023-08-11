@@ -37,7 +37,7 @@ else
 	endif
 endif
 
-.PHONY = all unpack_make pack_make clean unpack_clean pack_clean run
+.PHONY = all unpack_make pack_make clean unpack_clean pack_clean run package
 
 all : unpack_make pack_make
 
@@ -75,3 +75,17 @@ pack_clean:
 run : $(UNPACK_TARGET_NAME) $(PACK_TARGET_NAME)
 	@./$(UNPACK_TARGET_NAME)
 	@./$(PACK_TARGET_NAME)
+
+package:
+	@echo Making release package...
+	@rm -rf release ggzbrewtools*.zip
+	@mkdir -p release/{bin32,bin64,source}
+	@cp LICENSE README.md release/
+	@make clean
+	@make OS=Windows_NT CROSS=32
+	@cp *.exe release/bin32/
+	@make clean
+	@make OS=Windows_NT CROSS=64
+	@cp *.exe release/bin64/
+	@cp Makefile *.h *.cpp release/source/
+	@cd release && zip -r ../ggzbrewtools-$(VERSION_VER).zip *
