@@ -1,5 +1,5 @@
 /*
-pack.cpp -- Devil May Cry for BREW unpack tool
+pack.cpp -- GGZ BREW / Zeebo assets unpack tool
 
 Copyright (C) 2021
  Przemyslaw Skryjomski (Tuxality)
@@ -171,7 +171,7 @@ static void createDirectory(const std::string& path)
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Devil May Cry for BREW unpack tool " << __VERSION_VER__ << " - " << __VERSION_DATE__ << std::endl;
+    std::cout << "GGZ BREW / Zeebo assets unpack tool " << __VERSION_VER__ << " - " << __VERSION_DATE__ << std::endl;
     std::cout << "by Przemyslaw Skryjomski (Tuxality)" << std::endl << std::endl;
 
     try

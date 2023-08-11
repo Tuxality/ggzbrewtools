@@ -1,4 +1,4 @@
-VERSION_VER  = 0.1
+VERSION_VER  = 0.2
 VERSION_DATE = built on `date`
 
 UNPACK_TARGET  = unpack

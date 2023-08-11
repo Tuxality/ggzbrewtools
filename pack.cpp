@@ -1,5 +1,5 @@
 /*
-pack.cpp -- Devil May Cry for BREW pack tool
+pack.cpp -- GGZ BREW / Zeebo assets pack tool
 
 Copyright (C) 2021
  Przemyslaw Skryjomski (Tuxality)
@@ -236,7 +236,7 @@ static void checkDirectory(const std::string& path)
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Devil May Cry for BREW pack tool " << __VERSION_VER__ << " - " << __VERSION_DATE__ << std::endl;
+    std::cout << "GGZ BREW / Zeebo assets pack tool " << __VERSION_VER__ << " - " << __VERSION_DATE__ << std::endl;
     std::cout << "by Przemyslaw Skryjomski (Tuxality)" << std::endl << std::endl;
 
     try

@@ -1,5 +1,5 @@
-# Devil May Cry for BREW - (un)packer tool
-Simple "Devil May Cry: Dante X Vergil for BREW" GGZ assets (un)packing tool
+# GGZ BREW / Zeebo assets (un)packer tool
+Simple (un)packing tool for GGZ assets found in BREW / Zeebo games such as "Devil May Cry: Dante X Vergil for BREW" and "Double Dragon" for Zeebo.
 
 ### Requirements
 In order to compile you need to meet following requirements:
@@ -30,7 +30,16 @@ To unpack GGZ archives execute ```unpack``` tool directly from the terminal in w
 
 After making change in ```decompressed``` directory content, GGZ archives can be created by using ```pack``` tool. Tool lists all GGZ sources that reside in current directory in order to read metadata (list of files to pack), similarly to the unpacking tool there is a possibility to specify directory with GGZ archives as an argument for example ```pack ggzfiles```. After processing final archives will be placed in a newly created ```compressed``` path.
 
-### File formats
+### Supported games
+
+List of currently supported BREW / Zeebo games by (un)packing tool:
+
+- Devil May Cry: Dante X Vergil for BREW
+- Double Dragon for Zeebo
+
+Tool supports extracting and injecting modified assets to all of the supported games mentioned above. Modyfing game assets needs to be done by proper, manually selected external tools. Most likely some other games are supported too, compatibility list will be extended when such will be found.
+
+### Devil May Cry: Dante X Vergil for BREW file formats
 Currently tool allows to replace in-game textures, static images, story text as well as SFX and BGM (MIDI) music. Please keep in mind that upscaling textures requires change in game code.
 
 Known content:
@@ -49,6 +58,16 @@ Known content:
    - *.mid - BGM files, Standard MIDI data format 1 using 1 track at 1/960 and format 0 using 1 track at 1/480
  - wqvgatex.ggz
    - *.bmp - textures for static and non-static 3D meshes, 8 bit 128x128 and 256x256 PC bitmaps
+
+### Double Dragon for Zeebo file formats
+Currently tool allows to replace in-game sprites as well as SFX and BGM (MIDI) music.
+
+Known content:
+ - data.ggz
+   - *.obm1 - sprites / animations / tiles, custom file format
+ - sound.ggz
+   - *.wav - SFX files, RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 22050 Hz
+   - *.mid - BGM files, Standard MIDI data (format 0) using 1 track at 1/960
 
 ### Information
 Tools are provided as-is, please use at your own risk.
