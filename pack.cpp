@@ -65,8 +65,8 @@ uint32_t __bswap_32(uint32_t value)
 
 static bool isGzipHeader(const uint32_t& header)
 {
-    static const uint8_t GZIP_HEADER[sizeof(uint32_t)] = { 0x1F, 0x8B, 0x08, 0x08 };
-    return (0 == std::memcmp(static_cast<const void*>(&GZIP_HEADER[0]), static_cast<const void*>(&header), sizeof(uint32_t)));
+    static const uint8_t GZIP_HEADER[sizeof(uint32_t)] = { 0x1F, 0x8B, 0x00, 0x00 };
+    return (0 == std::memcmp(static_cast<const void*>(&GZIP_HEADER[0]), static_cast<const void*>(&header), sizeof(uint16_t)));
 }
 
 static void compressGZIP(const std::vector<char>& decompressed, std::vector<char>& compressed, const std::string& fileName, const std::time_t& mtime)
@@ -122,6 +122,8 @@ static void packGGZ(std::fstream& ggz, const std::string& file, const std::strin
     std::vector<uint32_t> offsetsEnd;
     std::vector<uint32_t> originalSizes;
 
+    size_t lastNameId = 0;
+
     ggz.seekg(0, ggz.end);
     size_t size = ggz.tellg();
     ggz.seekg(0, ggz.beg);
@@ -155,20 +157,58 @@ static void packGGZ(std::fstream& ggz, const std::string& file, const std::strin
         uint32_t size         = end - start;
 
         ggz.seekg(start);
-        uint32_t magicId, flags;
-        uint16_t flags2;
-        ggz.read((char*)(&magicId), sizeof(uint32_t));
-        ggz.read((char*)(&flags), sizeof(uint32_t));
-        ggz.read((char*)(&flags2), sizeof(uint16_t));
+
+        uint32_t gzipMagicId = 0;
+        ggz.read((char*)(&gzipMagicId), sizeof(uint8_t) * 3); // Last byte is not read on purpose
+
+        if (!isGzipHeader(gzipMagicId))
+        {
+            throw std::runtime_error("Incorrect GZIP identifier for offset " + std::to_string(i));
+        }
+
+        union
+        {
+            struct
+            {
+                unsigned text : 1;
+                unsigned hcrc : 1;
+                unsigned extra : 1;
+                unsigned name : 1;
+                unsigned comment : 1;
+                unsigned reserved : 3;
+            } f;
+
+            uint8_t x;
+        } flags;
+
+        ggz.read((char*)(&flags.x), sizeof(uint8_t));
+
+        uint32_t timestamp;
+        ggz.read((char*)(&timestamp), sizeof(uint32_t));
+
+        uint8_t extraFlags;
+        ggz.read((char*)(&extraFlags), sizeof(uint8_t));
+
+        uint8_t operatingSystem;
+        ggz.read((char*)(&operatingSystem), sizeof(uint8_t));
 
         std::string name;
-        char c = '\0';
-        do
+
+        if (flags.f.name)
         {
-            ggz.read((char*)(&c), sizeof(char));
-            if (c == '\0') break;
-            name += c;
-        } while (!ggz.eof());
+            char c = '\0';
+            do
+            {
+                ggz.read((char*)(&c), sizeof(char));
+                if (c == '\0') break;
+                name += c;
+            } while (!ggz.eof());
+        }
+
+        else
+        {
+            name = std::to_string(lastNameId++);
+        }
 
         if (ggz.eof())
             throw std::runtime_error("End of file, this should not happen!");

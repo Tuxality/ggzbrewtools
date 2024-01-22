@@ -1,4 +1,4 @@
-VERSION_VER  = 0.2
+VERSION_VER  = 0.3
 VERSION_DATE = built on `date`
 
 UNPACK_TARGET  = unpack
@@ -73,8 +73,8 @@ pack_clean:
 	@rm -f $(PACK_OBJECTS) $(PACK_TARGET_NAME) $(PACK_TARGET_NAME).exe	
 
 run : $(UNPACK_TARGET_NAME) $(PACK_TARGET_NAME)
-	@./$(UNPACK_TARGET_NAME)
-	@./$(PACK_TARGET_NAME)
+	@./$(UNPACK_TARGET_NAME) ./ggzfiles/
+	@./$(PACK_TARGET_NAME) ./ggzfiles/
 
 package:
 	@echo Making release package...
